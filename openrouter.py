@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-from config import OPENROUTER_MODEL, OPENROUTER_URL, OPENROUTER_TOKEN, EVARISTINHO_SYSPROMPT
+from config import OPENROUTER_MODEL, OPENROUTER_URL, OPENROUTER_TOKEN
 
 
 class OpenRouter:

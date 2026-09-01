@@ -1,8 +1,8 @@
-# Evaristinho
+# Cobol
 
 Bot de Telegram para o grupo **Hacker Space**, com duas funções:
 
-1. **Evaristinho** — um assistente de IA com a persona de um "desenvolvedor dinossauro" rabugento, que responde quando é mencionado ou chamado por comando, usando o histórico recente do tópico como contexto.
+1. **Cobol** — um assistente de IA com a persona de um "desenvolvedor dinossauro" rabugento, que responde quando é mencionado ou chamado por comando, usando o histórico recente do tópico como contexto.
 2. **Hacker News** — um job que lê feeds RSS de cibersegurança, pede à IA uma curadoria com as 5 notícias mais relevantes do dia (traduzidas e resumidas em português) e publica num tópico do grupo.
 
 A IA é servida pela [OpenRouter](https://openrouter.ai) através do SDK da OpenAI.
@@ -30,7 +30,7 @@ A IA é servida pela [OpenRouter](https://openrouter.ai) através do SDK da Open
 ## Como rodar
 
 ```bash
-git clone <repo> && cd Evaristinho
+git clone <repo> && cd Cobol
 uv sync                 # cria .venv e instala as dependências do uv.lock
 cp .env-sample .env     # preencha os tokens
 ```
@@ -54,14 +54,14 @@ uv run hacker_news.py   # publica o resumo do dia e encerra (bom para cron)
 O `hacker_news.py` foi feito para execução agendada; um cron diário é o uso esperado:
 
 ```
-0 9 * * * cd /caminho/para/Evaristinho && /usr/bin/uv run hacker_news.py
+0 9 * * * cd /caminho/para/Cobol && /usr/bin/uv run hacker_news.py
 ```
 
 ## Comandos do bot
 
 | Gatilho | Efeito |
 | --- | --- |
-| `/evaristinho <texto>` ou mencionar `@<bot>` | Chama a IA com o histórico do tópico como contexto. |
+| `/cobol <texto>` ou mencionar `@<bot>` | Chama a IA com o histórico do tópico como contexto. |
 | `/limpar`, `/reset` | Zera o histórico em memória daquele tópico. |
 | `/links` | Placeholder — hoje responde "Em breve eu te conto!". |
 | qualquer outra mensagem de texto | É apenas gravada no histórico, sem resposta. |
@@ -70,11 +70,11 @@ O `hacker_news.py` foi feito para execução agendada; um cron diário é o uso 
 
 O histórico **vive só em memória** (`self.msg_historico`, um `dict` de `deque`) e é perdido a cada reinício — não há banco de dados.
 
-A chave de contexto é a tupla `(chat.id, message_thread_id)`, então cada tópico do supergrupo tem seu próprio histórico isolado. O limite é `EVARISTINHO_MAX_HISTORICO` (150 mensagens) em [config.py](config.py); ao estourar, as mais antigas caem pela ponta do `deque`.
+A chave de contexto é a tupla `(chat.id, message_thread_id)`, então cada tópico do supergrupo tem seu próprio histórico isolado. O limite é `COBOL_MAX_HISTORICO` (150 mensagens) em [config.py](config.py); ao estourar, as mais antigas caem pela ponta do `deque`.
 
 ## Onde mexer
 
-- **Persona / tom do bot**: `EVARISTINHO_SYSPROMPT` em [config.py](config.py). As regras de formatação ali existem porque o Telegram quebra títulos Markdown e tabelas no celular — mantenha-as ao editar.
+- **Persona / tom do bot**: `COBOL_SYSPROMPT` em [config.py](config.py). As regras de formatação ali existem porque o Telegram quebra títulos Markdown e tabelas no celular — mantenha-as ao editar.
 - **Curadoria de notícias**: `HACKE_NEWS_PROMPT` e `HACKE_NEWS_RSS_FEEDS` em [config.py](config.py). O prompt exige um formato Markdown exato; alterá-lo muda o visual da mensagem publicada.
 - **Modelo de IA**: `OPENROUTER_MODEL` em [config.py](config.py), hoje `"openrouter/free"` (hardcoded, não vem do `.env`).
 - **Quantidade de itens por feed**: `feed.entries[:3]` em [hacker_news.py](hacker_news.py); a IA recebe no máximo os 15 mais recentes (`noticias[:15]`).

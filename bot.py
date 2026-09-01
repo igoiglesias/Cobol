@@ -6,8 +6,8 @@ from config import (
     OPENROUTER_TOKEN,
     OPENROUTER_MODEL,
     OPENROUTER_URL,
-    EVARISTINHO_MAX_HISTORICO,
-    EVARISTINHO_SYSPROMPT
+    COBOL_MAX_HISTORICO,
+    COBOL_SYSPROMPT
 )   
 from openrouter import OpenRouter
 from utils import _typing_action
@@ -34,7 +34,7 @@ class HackerSpaceBot:
         self.bot.register_message_handler(
             self._handle_ai, 
             func=lambda msg: msg.text and (
-                msg.text.startswith(('/evaristinho')) or 
+                msg.text.startswith(('/cobol')) or 
                 self.username.lower() in msg.text.lower()
             )
         )
@@ -61,7 +61,7 @@ class HackerSpaceBot:
         context_key = self._get_context_key(message)
         
         if context_key not in self.msg_historico:
-            self.msg_historico[context_key] = deque(maxlen=EVARISTINHO_MAX_HISTORICO)
+            self.msg_historico[context_key] = deque(maxlen=COBOL_MAX_HISTORICO)
             
         usuario = message.from_user.first_name or "Membro"
         
@@ -70,7 +70,7 @@ class HackerSpaceBot:
             "user": usuario, 
             "text": message.text.strip()
         })
-        print(f"mensagem recebida: {message.text.strip()}")
+        print(f"mensagem recebida: {usuario}: {message.text.strip()}")
 
     def _handle_ai(self, message):
         """Processa a mensagem quando a IA é chamada."""
@@ -78,7 +78,7 @@ class HackerSpaceBot:
         
         context_key = self._get_context_key(message)
         user_name = message.from_user.first_name or "Companheiro"
-        system_prompt = EVARISTINHO_SYSPROMPT.format(user_name=user_name)
+        system_prompt = COBOL_SYSPROMPT.format(user_name=user_name)
         
         prompt = message.text
         for cmd in ['/run', '/ia', '/evaristinho', self.username, self.username.lower()]:
