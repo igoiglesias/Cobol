@@ -9,7 +9,7 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 TELEGRAM_TOPIC_ID = os.getenv("TELEGRAM_TOPIC_ID")
 OPENROUTER_TOKEN = os.getenv("OPENROUTER_TOKEN")
 OPENROUTER_URL = "https://openrouter.ai/api/v1"
-OPENROUTER_MODEL = "openrouter/free"
+OPENROUTER_MODEL = "z-ai/glm-5.2:free"
 
 COBOL_MAX_HISTORICO = 200
 COBOL_SYSPROMPT = """

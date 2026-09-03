@@ -29,7 +29,14 @@ class OpenRouter:
         messages.append({"role": "user", "content": prompt})
         try: 
             response = self.ai.chat.completions.create(
-                model=self.openrouter_model, 
+                model=self.openrouter_model,
+                extra_body={
+                    "reasoning": {
+                        "effort": "medium",   # "xhigh" | "high" | "medium" | "low" | "minimal"
+                        "exclude": True,
+                    },
+                    "models": [self.openrouter_model, "openrouter/free"],
+                },
                 messages=[
                     {
                         "role": "system",
